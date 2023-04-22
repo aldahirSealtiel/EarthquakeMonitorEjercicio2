@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Earthquake_monitor</string>
+    <string name="no_earthquakes_rigth_now">No earthquakes rigth now</string>
+    <string name="magnitude_format">%.2f</string>
+</resources>
