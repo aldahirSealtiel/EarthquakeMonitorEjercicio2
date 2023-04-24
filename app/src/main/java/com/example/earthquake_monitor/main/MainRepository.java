@@ -1,7 +1,8 @@
-package com.example.earthquake_monitor;
+package com.example.earthquake_monitor.main;
 
 import androidx.annotation.NonNull;
 
+import com.example.earthquake_monitor.Earthquake;
 import com.example.earthquake_monitor.api.EarthquakesJSONResponse;
 import com.example.earthquake_monitor.api.EqApiClient;
 

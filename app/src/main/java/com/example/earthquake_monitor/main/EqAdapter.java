@@ -1,18 +1,16 @@
-package com.example.earthquake_monitor;
+package com.example.earthquake_monitor.main;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.earthquake_monitor.databinding.EqListItemBinding;
+import com.example.earthquake_monitor.Earthquake;
+import com.example.earthquake_monitor.R;
 
 //la clase que se extiende ListAdapter solicita el objeto que se va a adaptar y un view holder
 //que se encarga de reciclar las vistas, es decir, reusa las views para no crear mas de las

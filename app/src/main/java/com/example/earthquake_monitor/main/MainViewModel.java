@@ -1,26 +1,12 @@
-package com.example.earthquake_monitor;
+package com.example.earthquake_monitor.main;
 
-import android.util.JsonReader;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.earthquake_monitor.api.EarthquakesJSONResponse;
-import com.example.earthquake_monitor.api.EqApiClient;
+import com.example.earthquake_monitor.Earthquake;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainViewModel extends ViewModel {
 

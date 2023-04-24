@@ -1,8 +1,16 @@
 package com.example.earthquake_monitor;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.sql.Time;
 import java.util.Objects;
 
+/**
+ * La anotacion @Entity nos permite establecer a que tabla pertecera el objeto
+ */
+@Entity(tableName = "earthquakes")
 public class Earthquake {
 
     //se usa para poder usar la funcion de comparaci[on
@@ -24,6 +32,16 @@ public class Earthquake {
         return Objects.hash(id, place, magnitud, longitude, latitude, time);
     }
 
+    /**
+     * con la anotacion @PrimaryKey se coloca al atributo como llave primaria en la tabla de la
+     * base de datos, se puede agregar el atributo (autoGenerate = true) con el que se creara
+     * automaticamente el id
+     * Con la anotacion @NonNull fuerza a que el atributo no puede contener un valor null
+     * Si se requiere que alguna columna se llame distinto al nombre del atributo se puede usar la
+     * anotacion @ColumnInfo (name = "nuevo nombre")
+     */
+    @PrimaryKey
+    @NonNull
     private String id;
     private String place;
     private double magnitud;
