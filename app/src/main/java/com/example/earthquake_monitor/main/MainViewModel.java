@@ -1,27 +1,60 @@
 package com.example.earthquake_monitor.main;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.earthquake_monitor.Earthquake;
+import com.example.earthquake_monitor.api.RequestStatus;
+import com.example.earthquake_monitor.api.StatusWithDescription;
+import com.example.earthquake_monitor.database.EqDatabase;
 
 import java.util.List;
 
-public class MainViewModel extends ViewModel {
+//se cambio la extension de viewModel a androidViewModel para poder
+public class MainViewModel extends AndroidViewModel {
 
-    private final MutableLiveData< List<Earthquake> > eqList = new MutableLiveData<>();
 
-    public LiveData< List<Earthquake> > getEqList(){
-        return eqList;
+
+    private final MainRepository repository;
+
+    private MutableLiveData <StatusWithDescription> statusMutableLiveData = new MutableLiveData<>();
+    public MainViewModel(@NonNull Application application)
+    {
+        super(application);
+        EqDatabase database = EqDatabase.getDatabase(application);
+        this.repository =  new MainRepository(database);
     }
 
-    private final MainRepository repository = new MainRepository();
+    public LiveData<StatusWithDescription> getStatusMutableLiveData() {
+        return statusMutableLiveData;
+    }
 
-    public void getEarthquakes(){
-        repository.getEarthquakes(earthquakes -> {
-            eqList.setValue(earthquakes);
+    public LiveData< List<Earthquake> > getEqList(){
+        return repository.getEqList();
+    }
+
+
+
+    public void downloadEarthquakes()
+    {
+
+        statusMutableLiveData.setValue( new StatusWithDescription(RequestStatus.LOADING, "") );
+        repository.downloadAndSaveEarthquakes(new MainRepository.DownloadStatusListener() {
+            @Override
+            public void downloadSuccess() {
+                statusMutableLiveData.setValue( new StatusWithDescription(RequestStatus.DONE, ""));
+            }
+
+            @Override
+            public void downloadError(String message) {
+                statusMutableLiveData.setValue( new StatusWithDescription(RequestStatus.ERROR, message));
+            }
         });
+
     }
 
 }

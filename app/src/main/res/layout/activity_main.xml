@@ -28,6 +28,13 @@
             android:visibility="gone"
             android:text="@string/no_earthquakes_rigth_now"
             />
+        <ProgressBar
+            android:id="@+id/loadinf_wheel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="visible"
+            android:visibility="gone"/>
 
     </FrameLayout>
 </layout>

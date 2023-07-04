@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.earthquake_monitor.Earthquake;
 import com.example.earthquake_monitor.R;
+import com.example.earthquake_monitor.databinding.EqListItemBinding;
 
 //la clase que se extiende ListAdapter solicita el objeto que se va a adaptar y un view holder
 //que se encarga de reciclar las vistas, es decir, reusa las views para no crear mas de las

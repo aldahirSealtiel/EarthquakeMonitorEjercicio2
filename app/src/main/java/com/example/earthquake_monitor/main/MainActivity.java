@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.earthquake_monitor.api.RequestStatus;
+import com.example.earthquake_monitor.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
 
     MainViewModel viewModel;
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
          *se especifica que recycler va a usar
          */
         binding.eqRecycler.setLayoutManager(new LinearLayoutManager(this)); // con esto se le coloca que es una lista vertical
-        viewModel = new ViewModelProvider( this).get(MainViewModel.class);
+        viewModel = new ViewModelProvider( this, new MainViewModelFactory(getApplication())).get(MainViewModel.class);
 
 
         /**
@@ -53,8 +56,22 @@ public class MainActivity extends AppCompatActivity {
                 binding.emptyView.setVisibility(View.GONE);
             }
         });
+        viewModel.getStatusMutableLiveData().observe(this, statusWithDescription->{
+            if(statusWithDescription.getStatus() == RequestStatus.LOADING)
+            {
+                binding.loadinfWheel.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                binding.loadinfWheel.setVisibility(View.GONE);
 
-        viewModel.getEarthquakes();
+            }
+            if(statusWithDescription.getStatus() == RequestStatus.ERROR)
+            {
+                Toast.makeText(this, statusWithDescription.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        viewModel.downloadEarthquakes();
 
         //EqApiClient.getInstance().getService().getEarthquakes();
 

@@ -1,10 +1,12 @@
 package com.example.earthquake_monitor.main;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.example.earthquake_monitor.Earthquake;
 import com.example.earthquake_monitor.api.EarthquakesJSONResponse;
 import com.example.earthquake_monitor.api.EqApiClient;
+import com.example.earthquake_monitor.database.EqDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,21 @@ import retrofit2.Response;
 
 public class MainRepository {
 
-    public interface DownloadEqsListener{
-        void onEqsDownloaded(List<Earthquake> earthquakes);
-    }
+    private final EqDatabase database;
 
-    public void getEarthquakes(DownloadEqsListener downloadEqsListener){
+    public interface  DownloadStatusListener{
+         void downloadSuccess();
+         void downloadError(String message);
+    }
+    public MainRepository(EqDatabase database)
+    {
+        this.database = database;
+
+    }
+    public LiveData<List<Earthquake>> getEqList(){
+        return database.eqDAO().getEarthquakes();
+    }
+    public void downloadAndSaveEarthquakes(DownloadStatusListener downloadStatusListener){
         /**
          * se genera el consumo del servicio creado anteriormente
          */
@@ -36,14 +48,19 @@ public class MainRepository {
                 //Log.d("MainViewModel", response.body());
                 //assert response.body() != null;
                 List<Earthquake> earthquakes = parseEarthquakes(response.body());
-                downloadEqsListener.onEqsDownloaded(earthquakes);
-                //eqList.setValue(earthquakes);
 
+                EqDatabase.databaseWriteExecutor.execute( ()->{
+                    database.eqDAO().insertAll(earthquakes);
+                });
+
+                //downloadEqsListener.onEqsDownloaded(earthquakes);
+                //eqList.setValue(earthquakes);
+                downloadStatusListener.downloadSuccess();
             }
 
             @Override
             public void onFailure(@NonNull Call<EarthquakesJSONResponse> call, Throwable t) {
-
+                downloadStatusListener.downloadError("There was an error in downloading earthquakes, check internet connection.");
             }
         });
         //this.eqList.setValue(eqList);

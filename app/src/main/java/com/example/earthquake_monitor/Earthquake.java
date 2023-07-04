@@ -13,6 +13,9 @@ import java.util.Objects;
 @Entity(tableName = "earthquakes")
 public class Earthquake {
 
+    public Earthquake() {
+    }
+
     //se usa para poder usar la funcion de comparaci[on
     @Override
     public boolean equals(Object o) {
@@ -43,13 +46,34 @@ public class Earthquake {
     @PrimaryKey
     @NonNull
     private String id;
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setMagnitud(double magnitud) {
+        this.magnitud = magnitud;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     private String place;
     private double magnitud;
     private double longitude;
     private double latitude;
     private long time; //para usar timestamp
 
-    public  Earthquake(String pId, String pPlace, double pMagnitud, double pLongitude, double pLatitude, long pTime)
+    public  Earthquake(@NonNull String pId, String pPlace, double pMagnitud, double pLongitude, double pLatitude, long pTime)
     {
         this.id = pId;
         this.place = pPlace;
@@ -58,8 +82,13 @@ public class Earthquake {
         this.latitude = pLatitude;
         this.time = pTime;
     }
+    @NonNull
     public String getId() {
         return id;
+    }
+    public void setId(String id)
+    {
+        this.id = id;
     }
 
     public String getPlace() {

@@ -1,5 +1,6 @@
 package com.example.earthquake_monitor.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -34,7 +35,7 @@ public interface EqDAO {
      * @return
      */
     @Query("SELECT * FROM earthquakes")
-    List<Earthquake> getEarthquakes();
+    LiveData<List <Earthquake> >getEarthquakes();
 
     /**
      * Ejemplo de como crear una query con parametros que vienen en el metodo
